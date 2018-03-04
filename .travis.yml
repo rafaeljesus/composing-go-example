@@ -1,0 +1,15 @@
+sudo: required
+language: go
+
+go:
+  - 1.x
+
+cache:
+  directories:
+    - $GOPATH/pkg/dep
+
+install:
+  - mkdir -p $GOPATH/bin
+
+script:
+  - make test
