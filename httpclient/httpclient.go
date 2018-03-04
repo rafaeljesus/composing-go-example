@@ -12,7 +12,7 @@ type (
 	}
 )
 
-// NewHttpClient returns a configured HTTPClient
+// New returns a configured HTTPClient
 func New(p *HTTPPoster, g *HTTPGetter) *HTTPClient {
 	return &HTTPClient{
 		HTTPPoster: p,

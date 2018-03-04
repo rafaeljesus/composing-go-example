@@ -9,7 +9,7 @@ type (
 	}
 )
 
-// NewHTTPPoster returns a configured HTTPPoster
+// NewHTTPGetter returns a configured HTTPGetter
 func NewHTTPGetter(r *Requester) *HTTPGetter {
 	return &HTTPGetter{r}
 }
