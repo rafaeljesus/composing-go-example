@@ -1,0 +1,11 @@
+dependencies:
+  pre:
+    - go get -x -u github.com/golang/lint/golint
+    - mkdir -p "$IMPORT_PATH"
+  override:
+    - ln -sf "$(pwd)" "$APP_PATH"
+    - cd "$APP_PATH"
+
+test:
+  override:
+    - cd "$APP_PATH" && make test
