@@ -9,7 +9,6 @@ make test
 
 ## Badges
 
-[![Build Status](https://circleci.com/gh/rafaeljesus/composing-go-example.svg?style=svg)](https://circleci.com/gh/rafaeljesus/composing-go-example)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rafaeljesus/composing-go-example)](https://goreportcard.com/report/github.com/rafaeljesus/composing-go-example)
 [![Go Doc](https://godoc.org/github.com/rafaeljesus/composing-go-example?status.svg)](https://godoc.org/github.com/rafaeljesus/composing-go-example)
 
