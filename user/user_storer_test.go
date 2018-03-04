@@ -2,6 +2,7 @@ package user
 
 import (
 	"bytes"
+	"encoding/json"
 	"io"
 	"net/http"
 	"testing"
@@ -17,6 +18,16 @@ func TestUserStore(t *testing.T) {
 		}
 		if contentType == "" {
 			t.Fatal("unexpected contentType")
+		}
+		u := new(User)
+		if err := json.NewDecoder(body).Decode(u); err != nil {
+			t.Fatalf("unexpected body decode error: %v", err)
+		}
+		if u.Country == "" {
+			t.Fatal("unexpected country")
+		}
+		if u.Email == "" {
+			t.Fatal("unexpected email")
 		}
 		return &http.Response{StatusCode: http.StatusOK}, nil
 	}

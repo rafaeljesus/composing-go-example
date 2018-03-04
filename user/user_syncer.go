@@ -3,7 +3,6 @@ package user
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 )
@@ -26,12 +25,12 @@ func NewUserSyncer(hp HTTPPoster) *UserSyncer {
 
 // Sync responsible for synchronizing the user with third party system
 func (s *UserSyncer) Sync(user *User) error {
-	body, err := json.Marshal(user)
-	if err != nil {
+	body := new(bytes.Buffer)
+	if err := json.NewEncoder(body).Encode(user); err != nil {
 		return fmt.Errorf("failed to marshal user payload: %v", err)
 	}
 
-	res, err := s.client.Post(syncURL, contentType, bytes.NewReader(body))
+	res, err := s.client.Post(syncURL, contentType, body)
 	if err != nil {
 		return fmt.Errorf("failed to sync user: %v", err)
 	}
@@ -40,6 +39,6 @@ func (s *UserSyncer) Sync(user *User) error {
 	case http.StatusOK, http.StatusCreated, http.StatusAccepted:
 		return nil
 	default:
-		return errors.New("failed to sync user")
+		return fmt.Errorf("failed to sync user: %d", res.StatusCode)
 	}
 }

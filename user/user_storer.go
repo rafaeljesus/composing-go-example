@@ -36,12 +36,12 @@ func (s *UserStorer) Store(user *User) error {
 		return errors.New("user not found")
 	}
 
-	body, err := json.Marshal(user)
-	if err != nil {
+	body := new(bytes.Buffer)
+	if err := json.NewEncoder(body).Encode(user); err != nil {
 		return fmt.Errorf("failed to marshal user payload: %v", err)
 	}
 
-	res, err = s.client.Post(usersURL, contentType, bytes.NewReader(body))
+	res, err = s.client.Post(usersURL, contentType, body)
 	if err != nil {
 		return fmt.Errorf("failed to store user: %v", err)
 	}
