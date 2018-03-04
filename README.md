@@ -9,6 +9,7 @@ make test
 
 ## Badges
 
+[![Build Status](https://travis-ci.org/rafaeljesus/composing-go-example.svg?branch=master)](https://travis-ci.org/rafaeljesus/composing-go-example)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rafaeljesus/composing-go-example)](https://goreportcard.com/report/github.com/rafaeljesus/composing-go-example)
 [![Go Doc](https://godoc.org/github.com/rafaeljesus/composing-go-example?status.svg)](https://godoc.org/github.com/rafaeljesus/composing-go-example)
 
