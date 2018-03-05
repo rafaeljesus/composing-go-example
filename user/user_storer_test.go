@@ -42,7 +42,7 @@ func TestUserStore(t *testing.T) {
 			},
 		}, nil
 	}
-	storer := NewUserStorer(client)
+	storer := NewStorer(client)
 	u := New("foo@mail.com", "de")
 	if err := storer.Store(u); err != nil {
 		t.Fatalf("failed to store user: %v", err)

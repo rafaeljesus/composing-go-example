@@ -13,21 +13,21 @@ var (
 )
 
 type (
-	// UserStorer holds fields and dependencies for storing users
-	UserStorer struct {
+	// Storer holds fields and dependencies for storing users
+	Storer struct {
 		client HTTPClient
 	}
 )
 
-// NewUserStorer returns a configured UserStorer
-func NewUserStorer(hc HTTPClient) *UserStorer {
-	return &UserStorer{hc}
+// NewStorer returns a configured UserStorer
+func NewStorer(hc HTTPClient) *Storer {
+	return &Storer{hc}
 }
 
 // Store responsible for storing the user
-func (s *UserStorer) Store(user *User) error {
-	getUserURL := fmt.Sprintf("%s/%s/%s", usersURL, user.Email, user.Country)
-	res, err := s.client.Get(getUserURL)
+func (s *Storer) Store(user *User) error {
+	userResource := fmt.Sprintf("%s/%s/%s", usersURL, user.Email, user.Country)
+	res, err := s.client.Get(userResource)
 	if err != nil {
 		return fmt.Errorf("failed to fetch user: %v", err)
 	}
@@ -41,7 +41,7 @@ func (s *UserStorer) Store(user *User) error {
 		return fmt.Errorf("failed to marshal user payload: %v", err)
 	}
 
-	res, err = s.client.Post(usersURL, contentType, body)
+	res, err = s.client.Post(usersURL, "application/json", body)
 	if err != nil {
 		return fmt.Errorf("failed to store user: %v", err)
 	}

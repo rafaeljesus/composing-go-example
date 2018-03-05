@@ -6,15 +6,11 @@ import (
 )
 
 func main() {
-	reqter := new(httpclient.Requester)
-	poster := httpclient.NewHTTPPoster(reqter)
-	client := httpclient.New(
-		poster,
-		httpclient.NewHTTPGetter(reqter),
-	)
+	req := new(httpclient.Request)
+	client := httpclient.New(req)
 
-	_ = user.NewUserSyncer(poster)
-	_ = user.NewUserStorer(client)
+	_ = user.NewSyncer(client)
+	_ = user.NewStorer(client)
 
 	// pass syncer and storer downstream to
 	// http handler, messaging handler, etc...

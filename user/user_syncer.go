@@ -12,25 +12,25 @@ var (
 )
 
 type (
-	// UserSyncer holds fields and dependencies for synchronizing users
-	UserSyncer struct {
+	// Syncer holds fields and dependencies for synchronizing users
+	Syncer struct {
 		client HTTPPoster
 	}
 )
 
-// NewUserSyncer returns a configured UserSyncer
-func NewUserSyncer(hp HTTPPoster) *UserSyncer {
-	return &UserSyncer{hp}
+// NewSyncer returns a configured Syncer
+func NewSyncer(hp HTTPPoster) *Syncer {
+	return &Syncer{hp}
 }
 
 // Sync responsible for synchronizing the user with third party system
-func (s *UserSyncer) Sync(user *User) error {
+func (s *Syncer) Sync(user *User) error {
 	body := new(bytes.Buffer)
 	if err := json.NewEncoder(body).Encode(user); err != nil {
 		return fmt.Errorf("failed to marshal user payload: %v", err)
 	}
 
-	res, err := s.client.Post(syncURL, contentType, body)
+	res, err := s.client.Post(syncURL, "application/json", body)
 	if err != nil {
 		return fmt.Errorf("failed to sync user: %v", err)
 	}

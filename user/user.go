@@ -5,10 +5,6 @@ import (
 	"net/http"
 )
 
-var (
-	contentType = "application/json"
-)
-
 type (
 	// User represents the user
 	User struct {

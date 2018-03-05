@@ -57,7 +57,7 @@ func testUserSyncer(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return &http.Response{StatusCode: http.StatusOK}, nil
 	}
-	syncer := NewUserSyncer(client)
+	syncer := NewSyncer(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err != nil {
 		t.Fatalf("failed to sync user: %v", err)
@@ -87,7 +87,7 @@ func testFailToSyncUser(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return nil, errors.New("network error")
 	}
-	syncer := NewUserSyncer(client)
+	syncer := NewSyncer(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err == nil {
 		t.Fatal("expected client.Post() to return network error")
@@ -117,7 +117,7 @@ func testUserSyncerReturnErrorCode(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return &http.Response{StatusCode: http.StatusInternalServerError}, nil
 	}
-	syncer := NewUserSyncer(client)
+	syncer := NewSyncer(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err == nil {
 		t.Fatal("expected client.Post() to return error code")
