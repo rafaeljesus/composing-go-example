@@ -8,7 +8,7 @@ import (
 type (
 	// HTTPClient is the http wrapper for the application
 	HTTPClient struct {
-		*Request
+		req *Request
 	}
 )
 
@@ -19,10 +19,10 @@ func New(r *Request) *HTTPClient {
 
 // Get executes a GET http request
 func (c *HTTPClient) Get(url string) (*http.Response, error) {
-	return c.Do(http.MethodGet, url, "application/json", nil)
+	return c.req.Do(http.MethodGet, url, "application/json", nil)
 }
 
 // Post executes a POST http request
 func (c *HTTPClient) Post(url, contentType string, body io.Reader) (*http.Response, error) {
-	return c.Do(http.MethodPost, url, contentType, body)
+	return c.req.Do(http.MethodPost, url, contentType, body)
 }
