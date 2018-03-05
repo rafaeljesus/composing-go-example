@@ -13,19 +13,19 @@ var (
 )
 
 type (
-	// Storer holds fields and dependencies for storing users
-	Storer struct {
+	// Store holds fields and dependencies for storing users
+	Store struct {
 		client HTTPClient
 	}
 )
 
-// NewStorer returns a configured UserStorer
-func NewStorer(hc HTTPClient) *Storer {
-	return &Storer{hc}
+// NewStore returns a configured Store
+func NewStore(hc HTTPClient) *Store {
+	return &Store{hc}
 }
 
 // Store responsible for storing the user
-func (s *Storer) Store(user *User) error {
+func (s *Store) Store(user *User) error {
 	userResource := fmt.Sprintf("%s/%s/%s", usersURL, user.Email, user.Country)
 	res, err := s.client.Get(userResource)
 	if err != nil {

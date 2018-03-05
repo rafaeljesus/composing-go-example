@@ -10,14 +10,14 @@ import (
 	"github.com/rafaeljesus/composing-go-example/mock"
 )
 
-func TestUserSyncer(t *testing.T) {
+func TestUserSync(t *testing.T) {
 	tests := []struct {
 		scenario string
 		function func(*testing.T, *mock.HTTPClientMock)
 	}{
 		{
 			"test user syncer",
-			testUserSyncer,
+			testUserSync,
 		},
 		{
 			"test fail to sync user",
@@ -25,7 +25,7 @@ func TestUserSyncer(t *testing.T) {
 		},
 		{
 			"test user syncer return error code",
-			testUserSyncerReturnErrorCode,
+			testUserSyncReturnErrorCode,
 		},
 	}
 
@@ -37,7 +37,7 @@ func TestUserSyncer(t *testing.T) {
 	}
 }
 
-func testUserSyncer(t *testing.T, client *mock.HTTPClientMock) {
+func testUserSync(t *testing.T, client *mock.HTTPClientMock) {
 	client.PostFunc = func(url, contentType string, body io.Reader) (*http.Response, error) {
 		if url == "" {
 			t.Fatal("unexpected url")
@@ -57,7 +57,7 @@ func testUserSyncer(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return &http.Response{StatusCode: http.StatusOK}, nil
 	}
-	syncer := NewSyncer(client)
+	syncer := NewSync(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err != nil {
 		t.Fatalf("failed to sync user: %v", err)
@@ -87,7 +87,7 @@ func testFailToSyncUser(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return nil, errors.New("network error")
 	}
-	syncer := NewSyncer(client)
+	syncer := NewSync(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err == nil {
 		t.Fatal("expected client.Post() to return network error")
@@ -97,7 +97,7 @@ func testFailToSyncUser(t *testing.T, client *mock.HTTPClientMock) {
 	}
 }
 
-func testUserSyncerReturnErrorCode(t *testing.T, client *mock.HTTPClientMock) {
+func testUserSyncReturnErrorCode(t *testing.T, client *mock.HTTPClientMock) {
 	client.PostFunc = func(url, contentType string, body io.Reader) (*http.Response, error) {
 		if url == "" {
 			t.Fatal("unexpected url")
@@ -117,7 +117,7 @@ func testUserSyncerReturnErrorCode(t *testing.T, client *mock.HTTPClientMock) {
 		}
 		return &http.Response{StatusCode: http.StatusInternalServerError}, nil
 	}
-	syncer := NewSyncer(client)
+	syncer := NewSync(client)
 	u := New("foo@mail.com", "de")
 	if err := syncer.Sync(u); err == nil {
 		t.Fatal("expected client.Post() to return error code")
